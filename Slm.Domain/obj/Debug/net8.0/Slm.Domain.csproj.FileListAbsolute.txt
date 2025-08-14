@@ -1,0 +1,11 @@
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\bin\Debug\net8.0\Slm.Domain.deps.json
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\bin\Debug\net8.0\Slm.Domain.dll
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\bin\Debug\net8.0\Slm.Domain.pdb
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\Slm.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\Slm.Domain.AssemblyInfoInputs.cache
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\Slm.Domain.AssemblyInfo.cs
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\Slm.Domain.csproj.CoreCompileInputs.cache
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\Slm.Domain.dll
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\refint\Slm.Domain.dll
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\Slm.Domain.pdb
+C:\Users\marce\OneDrive\Área de Trabalho\sistema_locacao_motos\Slm.Domain\obj\Debug\net8.0\ref\Slm.Domain.dll

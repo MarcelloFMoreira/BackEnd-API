@@ -1,0 +1,87 @@
+[
+  {
+    "ContainingType": "sistema_locacao_motos.Controllers.MotosController",
+    "Method": "Create",
+    "RelativePath": "Motos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "moto",
+        "Type": "Slm.Domain.Entidades.Moto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "sistema_locacao_motos.Controllers.MotosController",
+    "Method": "Get",
+    "RelativePath": "Motos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placa",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "sistema_locacao_motos.Controllers.MotosController",
+    "Method": "GetById",
+    "RelativePath": "Motos/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "sistema_locacao_motos.Controllers.MotosController",
+    "Method": "Delete",
+    "RelativePath": "Motos/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "sistema_locacao_motos.Controllers.MotosController",
+    "Method": "UpdatePlaca",
+    "RelativePath": "Motos/{id}/placa",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "novaPlaca",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
