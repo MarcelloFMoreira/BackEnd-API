@@ -1,0 +1,6 @@
+@sistema_locacao_motos_HostAddress = http://localhost:5275
+
+GET {{sistema_locacao_motos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
