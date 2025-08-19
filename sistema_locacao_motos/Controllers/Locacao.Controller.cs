@@ -51,7 +51,7 @@ namespace sistema_locacao_motos.Controllers
             if (moto == null)
                 return NotFound("Moto não encontrada");
 
-            // valor da diária conforme plano
+            // planos disponiveis dias / valor por dia
             decimal valorDiaria = request.plano switch
             {
                 7 => 30,

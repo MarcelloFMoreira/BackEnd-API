@@ -27,12 +27,17 @@ namespace sistema_locacao_motos.Controllers
                 return BadRequest("CNPJ não pode ter mais que 14 caracteres.");
             if (entregador.numero_cnh?.Length > 11)
                 return BadRequest("Número da CNH não pode ter mais que 11 caracteres.");
-            if (entregador.tipo_cnh != "A" && entregador.tipo_cnh != "B" && entregador.tipo_cnh != "A + B")
-                return BadRequest("Tipo de CNH inválido. Use 'A', 'B' ou 'A + B'.");
+            string tipoCnhUpperCase = entregador.tipo_cnh.ToUpper();
+                if (tipoCnhUpperCase != "A" && tipoCnhUpperCase != "B" && tipoCnhUpperCase != "A+B")
+                return BadRequest("Tipo de CNH inválido. Use 'A', 'B' ou 'A+B'.");
 
             // CNPJ único
             if (_db.Entregador.Any(e => e.cnpj == entregador.cnpj))
                 return Conflict("CNPJ já cadastrado.");
+
+            // CNH única
+            if (_db.Entregador.Any(e=> e.numero_cnh == entregador.numero_cnh))
+                return Conflict("CNH já cadastrada.");
 
             _db.Entregador.Add(entregador);
             _db.SaveChanges();

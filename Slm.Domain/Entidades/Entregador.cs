@@ -35,7 +35,7 @@ namespace Slm.Domain.Entidades
         [Column("tipo_cnh")]
         [Required]
         [StringLength(3)]
-        public string tipo_cnh { get; set; } // Aceita "A", "B" ou "A+B"
+        public string tipo_cnh { get; set; } 
 
         [Column("imagem_cnh")]
         public string imagem_cnh { get; set; }
