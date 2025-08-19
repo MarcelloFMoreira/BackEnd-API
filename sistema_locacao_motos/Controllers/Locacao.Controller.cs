@@ -31,7 +31,7 @@ namespace sistema_locacao_motos.Controllers
 
         public class DevolucaoRequest
         {
-            public DateTime DataDevolucao { get; set; }
+            public DateTime data_devolucao { get; set; }
         }
         // POST /locacao  criar nova locação
         [HttpPost]
@@ -52,6 +52,11 @@ namespace sistema_locacao_motos.Controllers
                 return NotFound("Moto não encontrada");
 
             // planos disponiveis dias / valor por dia
+            var planosValidos = new[] { 7, 15, 30, 45, 50 };
+
+            if (!planosValidos.Contains(request.plano))
+                return BadRequest("Plano inválido. Os planos disponíveis são: 7, 15, 30, 45 ou 50 dias.");
+
             decimal valorDiaria = request.plano switch
             {
                 7 => 30,
@@ -59,7 +64,7 @@ namespace sistema_locacao_motos.Controllers
                 30 => 22,
                 45 => 20,
                 50 => 18,
-                _ => throw new ArgumentException("Plano inválido")
+                _ => 0 
             };
 
             var ultimoIdentificador = _db.Locacoes
@@ -121,22 +126,22 @@ namespace sistema_locacao_motos.Controllers
         [HttpPut("{id}/devolucao")]
         public IActionResult Devolver(string id, [FromBody] DevolucaoRequest request)
         {
-            if (request == null || request.DataDevolucao == default)
+            if (request == null || request.data_devolucao == default)
                 return BadRequest("Data de devolução é obrigatória.");
 
             var locacao = _db.Locacoes.Find(id);
             if (locacao == null)
                 return NotFound("Locação não encontrada.");
 
-            if (request.DataDevolucao < locacao.DataInicio)
+            if (request.data_devolucao < locacao.DataInicio)
                 return BadRequest("A data de devolução não pode ser anterior à data de início da locação.");
 
             decimal valorTotal = 0;
 
             // devolução antes da previsão 
-            if (request.DataDevolucao < locacao.DataPrevisaoTermino)
+            if (request.data_devolucao < locacao.DataPrevisaoTermino)
             {
-                int diasUsados = (int)Math.Ceiling((request.DataDevolucao - locacao.DataInicio).TotalDays);
+                int diasUsados = (int)Math.Ceiling((request.data_devolucao - locacao.DataInicio).TotalDays);
                 int diasNaoUsados = locacao.Plano - diasUsados;
 
                 decimal multaPercentual = locacao.Plano switch
@@ -150,20 +155,20 @@ namespace sistema_locacao_motos.Controllers
                            + (diasNaoUsados * locacao.ValorDiaria * multaPercentual);
             }
             // devolução no prazo 
-            else if (request.DataDevolucao <= locacao.DataPrevisaoTermino)
+            else if (request.data_devolucao == locacao.DataPrevisaoTermino)
             {
                 valorTotal = locacao.Plano * locacao.ValorDiaria;
             }
             // devolução depois da previsão 
             else
             {
-                int diasExtras = (int)Math.Ceiling((request.DataDevolucao - locacao.DataPrevisaoTermino).TotalDays);
+                int diasExtras = (int)Math.Ceiling((request.data_devolucao - locacao.DataPrevisaoTermino).TotalDays);
                 valorTotal = (locacao.Plano * locacao.ValorDiaria)
                            + (diasExtras * 50);
             }
 
             // atualiza locação
-            locacao.DataDevolucao = request.DataDevolucao; 
+            locacao.DataDevolucao = request.data_devolucao; 
             locacao.ValorTotal = valorTotal;
 
             _db.Locacoes.Update(locacao);
@@ -176,7 +181,7 @@ namespace sistema_locacao_motos.Controllers
                 locacao.MotoId,
                 locacao.DataInicio,
                 locacao.DataPrevisaoTermino,
-                DataDevolucao = locacao.DataDevolucao,
+                data_devolucao = locacao.DataDevolucao,
                 locacao.Plano,
                 locacao.ValorDiaria,
                 ValorTotal = locacao.ValorTotal

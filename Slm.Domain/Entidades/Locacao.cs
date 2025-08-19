@@ -23,18 +23,22 @@ namespace Slm.Domain.Entidades
         [Column("moto_id")]
         public string MotoId { get; set; }
 
+        [Required]
         [Column("data_inicio")]
         public DateTime DataInicio { get; set; }
 
+        [Required]
         [Column("data_termino")]
-        public DateTime? DataTermino { get; set; } 
+        public DateTime? DataTermino { get; set; }
 
+        [Required]
         [Column("data_previsao_termino")]
         public DateTime DataPrevisaoTermino { get; set; }
 
         [Column("plano")]
         public int Plano { get; set; }
 
+        
         [Column("data_devolucao")]
         public DateTime?  DataDevolucao { get; set; }
     }

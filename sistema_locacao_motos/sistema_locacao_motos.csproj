@@ -7,11 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="cnh_entregador 12.txt" />
+    <None Remove="cnh_entregador 3242.txt" />
+    <None Remove="Storage\03c97c7f-c67d-4ad9-b596-2f0bc55558e5.png" />
+    <None Remove="Storage\7ecda3d7-862a-4ce6-8b35-df6f69bffe44.png" />
+    <None Remove="Storage\a9d07500-5177-40db-9dac-5391722eca2d.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\slm.infraestrutura\slm.infraestrutura.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Storage\" />
   </ItemGroup>
 
 </Project>

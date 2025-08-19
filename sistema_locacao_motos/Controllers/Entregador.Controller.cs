@@ -28,7 +28,7 @@ namespace sistema_locacao_motos.Controllers
             if (entregador.numero_cnh?.Length > 11)
                 return BadRequest("Número da CNH não pode ter mais que 11 caracteres.");
             string tipoCnhUpperCase = entregador.tipo_cnh.ToUpper();
-                if (tipoCnhUpperCase != "A" && tipoCnhUpperCase != "B" && tipoCnhUpperCase != "A+B")
+            if (tipoCnhUpperCase != "A" && tipoCnhUpperCase != "B" && tipoCnhUpperCase != "A+B")
                 return BadRequest("Tipo de CNH inválido. Use 'A', 'B' ou 'A+B'.");
 
             // CNPJ único
@@ -36,7 +36,7 @@ namespace sistema_locacao_motos.Controllers
                 return Conflict("CNPJ já cadastrado.");
 
             // CNH única
-            if (_db.Entregador.Any(e=> e.numero_cnh == entregador.numero_cnh))
+            if (_db.Entregador.Any(e => e.numero_cnh == entregador.numero_cnh))
                 return Conflict("CNH já cadastrada.");
 
             _db.Entregador.Add(entregador);
@@ -45,24 +45,58 @@ namespace sistema_locacao_motos.Controllers
             return CreatedAtAction(null, new { id = entregador.identificador }, entregador);
         }
 
-        [HttpPost("{id}/cnh")]
-        public IActionResult UploadCnh(string id, [FromBody] AtualizarImagemCnhRequest body)
+        [HttpPut("{id}/cnh")]
+        public IActionResult UploadCnh(string id, [FromForm] AtualizarImagemCnhRequest body)
         {
-            if (body == null || string.IsNullOrWhiteSpace(body.imagem_cnh))
-                return BadRequest("Informe a imagem CNH no corpo: { \"imagem_cnh\": \"base64string\" }");
+            if (body.imagem_cnh == null || body.imagem_cnh.Length == 0)
+                return BadRequest("A imagem da CNH é obrigatória.");
 
+            // valida extensão e content-type
+            var extensao = Path.GetExtension(body.imagem_cnh.FileName).ToLowerInvariant();
+            var contentType = body.imagem_cnh.ContentType.ToLowerInvariant();
+
+            var formatosPermitidos = new[] { ".png", ".bmp" };
+            var contentTypesPermitidos = new[] { "image/png", "image/bmp" };
+
+            if (!formatosPermitidos.Contains(extensao) || !contentTypesPermitidos.Contains(contentType))
+                return BadRequest("Apenas imagens PNG ou BMP são permitidas.");
+
+            // garante que a pasta Storage existe
+            var storagePath = Path.Combine(Directory.GetCurrentDirectory(), "Storage");
+            if (!Directory.Exists(storagePath))
+                Directory.CreateDirectory(storagePath);
+
+            // cria nome único para evitar conflitos
+            var fileName = $"{Guid.NewGuid()}{extensao}";
+            var filePath = Path.Combine(storagePath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                body.imagem_cnh.CopyTo(stream);
+            }
+
+            // busca entregador
             var entregador = _db.Entregador.Find(id);
-            if (entregador == null) return NotFound($"Entregador com ID '{id}' não encontrado.");
+            if (entregador == null)
+                return NotFound($"Entregador com ID '{id}' não encontrado.");
 
-            entregador.imagem_cnh = body.imagem_cnh;
+            // salva path como string no banco
+            entregador.imagem_cnh = Path.Combine("Storage", fileName);
+
+            _db.Entregador.Update(entregador);
             _db.SaveChanges();
 
-            return NoContent();
+            return Ok(new
+            {
+                message = "Imagem da CNH atualizada com sucesso.",
+                path = entregador.imagem_cnh
+            });
         }
     }
 
-    public class AtualizarImagemCnhRequest
+        public class AtualizarImagemCnhRequest
     {
-        public string imagem_cnh { get; set; }
+        public IFormFile imagem_cnh { get; set; }
+
     }
 }
