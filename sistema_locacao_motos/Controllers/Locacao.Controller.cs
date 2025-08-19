@@ -32,9 +32,8 @@ namespace sistema_locacao_motos.Controllers
         public class DevolucaoRequest
         {
             public DateTime DataDevolucao { get; set; }
-            public float ValorTotal { get; set; }
         }
-        // POST /locacao → criar nova locação
+        // POST /locacao  criar nova locação
         [HttpPost]
         public IActionResult CriarLocacao([FromBody] CriarLocacaoRequest request)
         {
@@ -109,7 +108,7 @@ namespace sistema_locacao_motos.Controllers
             return CreatedAtAction(nameof(GetById), new { id = locacao.Identificador }, locacao);
         }
 
-        // GET /locacao/{id} → consultar locação pelo ID
+        // GET /locacao/{id} consultar locação pelo ID
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
@@ -119,11 +118,10 @@ namespace sistema_locacao_motos.Controllers
         }
 
 
-
         [HttpPut("{id}/devolucao")]
         public IActionResult Devolver(string id, [FromBody] DevolucaoRequest request)
         {
-            if (request == null)
+            if (request == null || request.DataDevolucao == default)
                 return BadRequest("Data de devolução é obrigatória.");
 
             var locacao = _db.Locacoes.Find(id);
@@ -135,7 +133,7 @@ namespace sistema_locacao_motos.Controllers
 
             decimal valorTotal = 0;
 
-            // se devolvido antes da data prevista
+            // devolução antes da previsão 
             if (request.DataDevolucao < locacao.DataPrevisaoTermino)
             {
                 int diasUsados = (int)Math.Ceiling((request.DataDevolucao - locacao.DataInicio).TotalDays);
@@ -148,22 +146,24 @@ namespace sistema_locacao_motos.Controllers
                     _ => 0m
                 };
 
-                valorTotal = (diasUsados * locacao.ValorDiaria) + (diasNaoUsados * locacao.ValorDiaria * multaPercentual);
+                valorTotal = (diasUsados * locacao.ValorDiaria)
+                           + (diasNaoUsados * locacao.ValorDiaria * multaPercentual);
             }
-            // se devolvido no prazo
+            // devolução no prazo 
             else if (request.DataDevolucao <= locacao.DataPrevisaoTermino)
             {
                 valorTotal = locacao.Plano * locacao.ValorDiaria;
             }
-            // se devolvido depois da data prevista
+            // devolução depois da previsão 
             else
             {
                 int diasExtras = (int)Math.Ceiling((request.DataDevolucao - locacao.DataPrevisaoTermino).TotalDays);
-                valorTotal = (locacao.Plano * locacao.ValorDiaria) + (diasExtras * 50);
+                valorTotal = (locacao.Plano * locacao.ValorDiaria)
+                           + (diasExtras * 50);
             }
 
             // atualiza locação
-            locacao.DataTermino = request.DataDevolucao;
+            locacao.DataDevolucao = request.DataDevolucao; 
             locacao.ValorTotal = valorTotal;
 
             _db.Locacoes.Update(locacao);
@@ -176,7 +176,7 @@ namespace sistema_locacao_motos.Controllers
                 locacao.MotoId,
                 locacao.DataInicio,
                 locacao.DataPrevisaoTermino,
-                DataDevolucao = locacao.DataTermino,
+                DataDevolucao = locacao.DataDevolucao,
                 locacao.Plano,
                 locacao.ValorDiaria,
                 ValorTotal = locacao.ValorTotal

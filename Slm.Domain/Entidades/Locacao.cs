@@ -34,5 +34,8 @@ namespace Slm.Domain.Entidades
 
         [Column("plano")]
         public int Plano { get; set; }
+
+        [Column("data_devolucao")]
+        public DateTime?  DataDevolucao { get; set; }
     }
 }
