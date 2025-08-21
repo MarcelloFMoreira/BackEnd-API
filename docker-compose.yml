@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # API .NET
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - TypeDatabase=Postgresql
+      - ConnectionStrings__Postgresql=Host=postgres;Port=5432;Database=sistema_locacao_motos;Username=postgres;Password=1227;Pooling=true;
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Banco de dados PostgreSQL
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=sistema_locacao_motos
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1227
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
