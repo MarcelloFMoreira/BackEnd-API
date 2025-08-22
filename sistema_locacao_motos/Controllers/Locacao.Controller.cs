@@ -36,82 +36,87 @@ namespace sistema_locacao_motos.Controllers
         // POST /locacao  criar nova locação
         [HttpPost]
         public IActionResult CriarLocacao([FromBody] CriarLocacaoRequest request)
+    {
+        if (request == null)
+            return BadRequest();
+
+        if (request.data_inicio.Date <= DateTime.UtcNow.Date.AddDays(1))
         {
-            if (request == null)
-                return BadRequest();
+            return BadRequest("A data de início deve ser pelo menos 1 dia após a data atual");
+        }
 
-            var entregador = _db.Entregador.Find(request.entregador_id);
-            if (entregador == null)
-                return NotFound("Entregador não encontrado");
+        var entregador = _db.Entregador.Find(request.entregador_id);
+        if (entregador == null)
+            return NotFound("Entregador não encontrado");
 
-            if (!entregador.tipo_cnh.Contains("A"))
-                return BadRequest("Somente entregadores com CNH categoria A podem alugar motos");
+        if (!entregador.tipo_cnh.Contains("A"))
+            return BadRequest("Somente entregadores com CNH categoria A podem alugar motos");
 
-            var moto = _db.Moto.Find(request.moto_id);
-            if (moto == null)
-                return NotFound("Moto não encontrada");
+        var moto = _db.Moto.Find(request.moto_id);
+        if (moto == null)
+            return NotFound("Moto não encontrada");
 
-            // planos disponiveis dias / valor por dia
-            var planosValidos = new[] { 7, 15, 30, 45, 50 };
+        // planos disponiveis dias / valor por dia
+        var planosValidos = new[] { 7, 15, 30, 45, 50 };
 
-            if (!planosValidos.Contains(request.plano))
-                return BadRequest("Plano inválido. Os planos disponíveis são: 7, 15, 30, 45 ou 50 dias.");
+        if (!planosValidos.Contains(request.plano))
+            return BadRequest("Plano inválido. Os planos disponíveis são: 7, 15, 30, 45 ou 50 dias.");
 
-            decimal valorDiaria = request.plano switch
-            {
-                7 => 30,
-                15 => 28,
-                30 => 22,
-                45 => 20,
-                50 => 18,
-                _ => 0 
-            };
+        decimal valorDiaria = request.plano switch
+        {
+            7 => 30,
+            15 => 28,
+            30 => 22,
+            45 => 20,
+            50 => 18,
+            _ => 0 
+        };
 
-            var ultimoIdentificador = _db.Locacoes
+        var ultimoIdentificador = _db.Locacoes
             .OrderByDescending(l => l.Identificador)
             .Select(l => l.Identificador)
             .FirstOrDefault();
 
-            int proximoNumero = 1;
-            if (!string.IsNullOrEmpty(ultimoIdentificador) && ultimoIdentificador.StartsWith("locacao"))
+        int proximoNumero = 1;
+        if (!string.IsNullOrEmpty(ultimoIdentificador) && ultimoIdentificador.StartsWith("locacao"))
+        {
+            var numeroStr = ultimoIdentificador.Substring("locacao".Length);
+            if (int.TryParse(numeroStr, out int numero))
             {
-                var numeroStr = ultimoIdentificador.Substring("locacao".Length);
-                if (int.TryParse(numeroStr, out int numero))
-                {
-                    proximoNumero = numero + 1;
-                }
+                proximoNumero = numero + 1;
             }
-
-            string identificador = $"locacao{proximoNumero}";
-
-             var conflito = _db.Locacoes
-                .Where(l => l.MotoId == request.moto_id)
-                .Any(l =>
-                    (request.data_inicio >= l.DataInicio && request.data_inicio <= l.DataTermino) ||
-                    (request.data_termino >= l.DataInicio && request.data_termino <= l.DataTermino) ||
-                    (request.data_inicio <= l.DataInicio && request.data_termino >= l.DataTermino)
-                );
-
-            if (conflito)
-                return BadRequest("A moto já está alugada neste período.");
-
-            var locacao = new Locacao
-            {
-                Identificador = identificador,  
-                EntregadorId = request.entregador_id,
-                MotoId = request.moto_id,
-                DataInicio = request.data_inicio,
-                DataTermino = request.data_termino,
-                DataPrevisaoTermino = request.data_previsao_termino,
-                ValorDiaria = valorDiaria,
-                Plano = request.plano
-            };
-
-            _db.Locacoes.Add(locacao);
-            _db.SaveChanges();
-
-            return CreatedAtAction(nameof(GetById), new { id = locacao.Identificador }, locacao);
         }
+
+        string identificador = $"locacao{proximoNumero}";
+
+        var conflito = _db.Locacoes
+            .Where(l => l.MotoId == request.moto_id)
+            .Any(l =>
+                (request.data_inicio >= l.DataInicio && request.data_inicio <= l.DataTermino) ||
+                (request.data_termino >= l.DataInicio && request.data_termino <= l.DataTermino) ||
+                (request.data_inicio <= l.DataInicio && request.data_termino >= l.DataTermino)
+            );
+
+        if (conflito)
+            return BadRequest("A moto já está alugada neste período.");
+
+        var locacao = new Locacao
+        {
+            Identificador = identificador,  
+            EntregadorId = request.entregador_id,
+            MotoId = request.moto_id,
+            DataInicio = request.data_inicio,
+            DataTermino = request.data_termino,
+            DataPrevisaoTermino = request.data_previsao_termino,
+            ValorDiaria = valorDiaria,
+            Plano = request.plano
+        };
+
+        _db.Locacoes.Add(locacao);
+        _db.SaveChanges();
+
+        return CreatedAtAction(nameof(GetById), new { id = locacao.Identificador }, locacao);
+    }
 
         // GET /locacao/{id} consultar locação pelo ID
         [HttpGet("{id}")]

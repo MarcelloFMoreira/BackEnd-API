@@ -28,7 +28,7 @@ namespace sistema_locacao_motos.Controllers
             if (entregador.numero_cnh?.Length > 11)
                 return BadRequest("Número da CNH não pode ter mais que 11 caracteres.");
             string tipoCnhUpperCase = entregador.tipo_cnh.ToUpper();
-            if (tipoCnhUpperCase != "A" && tipoCnhUpperCase != "B" && tipoCnhUpperCase != "A+B")
+            if (tipoCnhUpperCase != "A" && tipoCnhUpperCase != "B" && tipoCnhUpperCase != "A+B" && tipoCnhUpperCase !="AB")
                 return BadRequest("Tipo de CNH inválido. Use 'A', 'B' ou 'A+B'.");
 
             // CNPJ único
@@ -45,7 +45,7 @@ namespace sistema_locacao_motos.Controllers
             return CreatedAtAction(null, new { id = entregador.identificador }, entregador);
         }
 
-        [HttpPut("{id}/cnh")]
+        [HttpPost("{id}/cnh")]
         public IActionResult UploadCnh(string id, [FromForm] AtualizarImagemCnhRequest body)
         {
             if (body.imagem_cnh == null || body.imagem_cnh.Length == 0)
