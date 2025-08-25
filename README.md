@@ -1,27 +1,30 @@
-# Sistema de Locação de Motos - API
+# Sistema de Locação de Motos API
 
-## Descrição do Projeto
+## Visão Geral
 Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o processo de locação de motos e o cadastro de entregadores. O sistema abrange funcionalidades essenciais, desde o registro de motos e entregadores até a gestão completa de locações, incluindo cálculos de custos com base em planos de aluguel e multas por atraso ou devolução antecipada.
 
-## Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 - .NET C#
 - Entity Framework Core para ORM
 - PostgreSQL como banco de dados
 - Docker para containerização
 - Docker Compose para orquestração de containers
 
-##  Estrutura do Projeto
-BackEnd-API/
+## 📁 Estrutura do Projeto
+- 
+   ```bash
+   BackEnd-API/ 
+   ├── Slm.Domain/           # Camada de domínio e entidades         
+   ├── slm.infraestrutura/   # Camada de infraestrutura e persistência         
+   ├── sistema_locacao_motos/ # Camada de aplicação e API         
+   ├── Dockerfile           # Configuração do container da aplicação         
+   ├── docker-compose.yml   # Orquestração dos serviços      
+   └── README.md           # Documentação do projeto         
 
-├── Slm.Domain/           
-├── slm.infraestrutura/   
-├── sistema_locacao_motos/   
-├── Dockerfile           
-├── docker-compose.yml   
-└── README.md           
-
-## Pré-requisitos
-Para executar a aplicação, você precisa ter o Docker e Docker Compose instalados na sua máquina.
+## ⚙️ Pré-requisitos
+- .NET 9.0 SDK ou superior
+- Docker Desktop com Docker Compose
+- Git para clonar o repositório
 
 ## Como Executar o Projeto
 1. Clone o repositório:
@@ -37,11 +40,10 @@ Para executar a aplicação, você precisa ter o Docker e Docker Compose instala
    API: http://localhost:8080    
    Swagger: http://localhost:8080/swagger
 
-## Modelagem de dados
+## 📊 Modelagem de dados
+<img width="800"  alt="Modelagem de dado" src="https://github.com/user-attachments/assets/43f99e83-0366-4bea-bfdb-0f3fa5b2735d" />
 
-<img width="902" height="337" alt="Modelagem de dado" src="https://github.com/user-attachments/assets/43f99e83-0366-4bea-bfdb-0f3fa5b2735d" />
-
-## Endpoints 
+## 🎯 Endpoints 
  Gestão de Motos
 - POST - /motos - Cadastrar nova moto
 - GET - /motos - Consultar motos
@@ -58,9 +60,10 @@ Para executar a aplicação, você precisa ter o Docker e Docker Compose instala
 - GET - /locacao/{id} - Consultar locacao por id
 - PUT - /locacao/{id}/devolucao Informar data de devolução e calcular valor total </br></br>
 
+
 <table>
       <th>Dev</th>
-      <th>Ícone</th>
+      <th>Icon</th>
       <th>Contato</th>
     <tr>
       <td>Marcello de Freitas Moreira</td>
@@ -68,5 +71,6 @@ Para executar a aplicação, você precisa ter o Docker e Docker Compose instala
        <td><a href="https://api.whatsapp.com/send/?phone=11981733002&text&type=phone_number&app_absent=0"><img width="50" height="50" alt="wpp" src="https://github.com/user-attachments/assets/7838408f-6089-4437-a0bb-19336456e2e7" /></a></td>
    </tr>
 </table>
+
 
 
