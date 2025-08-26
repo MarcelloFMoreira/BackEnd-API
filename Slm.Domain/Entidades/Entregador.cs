@@ -7,37 +7,37 @@ namespace Slm.Domain.Entidades
     [Table("entregadores")]
     public class Entregador
     {
-        [Key]
-        [Column("identificador")]
-        [Required]
-        [StringLength(50)]
+        [Key] //chave primaria
+        [Column("identificador")]//nome da coluna no banco
+        [Required]//obrigatorio
+        [StringLength(50)]//tamanho maximo
         public string identificador { get; set; }
 
-        [Column("nome")]
-        [Required]
-        [StringLength(200)]
+        [Column("nome")]//nome da coluna no banco
+        [Required]//obrigatorio
+        [StringLength(200)]//tamanho maximo
         public string nome { get; set; }
 
-        [Column("cnpj")]
-        [Required]
-        [StringLength(14)]
+        [Column("cnpj")]//nome da coluna no banco
+        [Required]//obrigatorio
+        [StringLength(14)]//tamanho maximo
         public string cnpj { get; set; }
 
-        [Column("data_nascimento")]
-        [Required]
+        [Column("data_nascimento")]//nome da coluna no banco
+        [Required]//obrigatorio
         public DateTime data_nascimento { get; set; }
 
-        [Column("numero_cnh")]
-        [Required]
-        [StringLength(11)]
+        [Column("numero_cnh")]//nome da coluna no banco
+        [Required]//obrigatorio
+        [StringLength(11)]//tamanho maximo
         public string numero_cnh { get; set; }
 
-        [Column("tipo_cnh")]
-        [Required]
-        [StringLength(3)]
+        [Column("tipo_cnh")]//nome da coluna no banco
+        [Required]//obrigatorio
+        [StringLength(3)]//tamanho maximo
         public string tipo_cnh { get; set; } 
 
-        [Column("imagem_cnh")]
+        [Column("imagem_cnh")]//nome da coluna no banco
         public string imagem_cnh { get; set; }
     }
 }

@@ -7,23 +7,23 @@ namespace Slm.Domain.Entidades
     public class Moto
     {
         [Key]
-        [Column("identificador")]
-        [Required]
-        [StringLength(50)]
+        [Column("identificador")]//nome da coluna no banco
+        [Required]//obrigaorio
+        [StringLength(50)]//tamanho maximo
         public string Identificador { get; set; }
 
-        [Column("ano")]
-        [Required]
+        [Column("ano")]//nome da coluna no banco
+        [Required]//obrigaorio
         public int Ano { get; set; }
 
-        [Column("modelo")]
-        [Required]
-        [StringLength(100)]
+        [Column("modelo")]//nome da coluna no banco
+        [Required]//obrigaorio
+        [StringLength(100)]//tamanho maximo
         public string Modelo { get; set; }
 
-        [Column("placa")]
-        [Required]
-        [StringLength(10)]
+        [Column("placa")]//nome da coluna no banco
+        [Required]//obrigaorio
+        [StringLength(10)]//tamanho maximo
         public string Placa { get; set; }
     }
 }

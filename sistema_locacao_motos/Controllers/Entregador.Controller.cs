@@ -20,6 +20,7 @@ namespace sistema_locacao_motos.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Entregador entregador)
         {
+            //Validar se o corpo da requisição está vazio
             if (entregador == null) return BadRequest();
 
             // validações de tamanho
@@ -27,6 +28,8 @@ namespace sistema_locacao_motos.Controllers
                 return BadRequest("CNPJ não pode ter mais que 14 caracteres.");
             if (entregador.numero_cnh?.Length > 11)
                 return BadRequest("Número da CNH não pode ter mais que 11 caracteres.");
+
+            //validar tipo da CNH
             string tipoCnhUpperCase = entregador.tipo_cnh.ToUpper();
             if (tipoCnhUpperCase != "A" && tipoCnhUpperCase != "B" && tipoCnhUpperCase != "A+B" && tipoCnhUpperCase !="AB")
                 return BadRequest("Tipo de CNH inválido. Use 'A', 'B' ou 'A+B'.");
@@ -48,6 +51,7 @@ namespace sistema_locacao_motos.Controllers
         [HttpPost("{id}/cnh")]
         public IActionResult UploadCnh(string id, [FromForm] AtualizarImagemCnhRequest body)
         {
+            //valida se arquivo foi enviado
             if (body.imagem_cnh == null || body.imagem_cnh.Length == 0)
                 return BadRequest("A imagem da CNH é obrigatória.");
 
@@ -55,6 +59,7 @@ namespace sistema_locacao_motos.Controllers
             var extensao = Path.GetExtension(body.imagem_cnh.FileName).ToLowerInvariant();
             var contentType = body.imagem_cnh.ContentType.ToLowerInvariant();
 
+            //valida formatos permitidos
             var formatosPermitidos = new[] { ".png", ".bmp" };
             var contentTypesPermitidos = new[] { "image/png", "image/bmp" };
 

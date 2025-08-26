@@ -20,9 +20,10 @@ namespace sistema_locacao_motos.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Moto moto)
         {
+            // Valida se o corpo da requisição é nulo.
             if (moto == null) return BadRequest();
 
-            // placa única
+            // Valida se a placa é única
             if (_db.Moto.Any(m => m.Placa == moto.Placa))
                 return Conflict("Placa já cadastrada.");
 
@@ -36,7 +37,10 @@ namespace sistema_locacao_motos.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery] string? placa = null)
         {
+            // Consulta base
             var query = _db.Moto.AsQueryable();
+
+            // Se a placa for fornecida,  filtrar
             if (!string.IsNullOrWhiteSpace(placa))
                 query = query.Where(m => m.Placa == placa);
 
@@ -47,8 +51,12 @@ namespace sistema_locacao_motos.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
+            // Busca a moto pelo identificador.
             var moto = _db.Moto.Find(id);
+
+            // Retorna 404 (Not Found) se a moto não for encontrada.
             if (moto == null) return NotFound();
+
             return Ok(moto);
         }
 
@@ -56,18 +64,24 @@ namespace sistema_locacao_motos.Controllers
         [HttpPut("{id}/placa")]
         public IActionResult UpdatePlaca(string id, [FromBody] AtualizarPlacaRequest body)
         {
+            // Valida se o corpo da req. é nula
             if (body == null || string.IsNullOrWhiteSpace(body.Placa))
                 return BadRequest("Informe a nova placa no corpo: { \"placa\": \"ABC-1234\" }");
 
+            // Busca a moto pelo identificador.
             var moto = _db.Moto.Find(id);
+
+            // Retorna 404 se a moto não for encontrada.
             if (moto == null) return NotFound();
 
-            // valida duplicidade
+            // valida duplicidade de placa 
             if (_db.Moto.Any(m => m.Placa == body.Placa && m.Identificador != id))
                 return Conflict("Placa já cadastrada.");
 
             moto.Placa = body.Placa;
             _db.SaveChanges();
+
+            // Retorna 204  indicando que a atualização foi bem sucedida.
             return NoContent();
         }
 
@@ -75,14 +89,16 @@ namespace sistema_locacao_motos.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
+            // Busca a moto pelo identificador.
             var moto = _db.Moto.Find(id);
-            if (moto == null) return NotFound();
 
-            // TODO (quando tiver Locacao no contexto): bloquear se houver locações registradas
-            // if (_db.Locacao.Any(l => l.MotoId == id)) return Conflict("Moto possui locações registradas.");
+            // Retorna 404 se a moto não for encontrada.
+            if (moto == null) return NotFound();
 
             _db.Moto.Remove(moto);
             _db.SaveChanges();
+
+            // Retorna 204  indicando que a atualização foi bem sucedida.
             return NoContent();
         }
     }
