@@ -36,8 +36,7 @@ Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o proces
 3. Execute os containers
    ```bash
    docker-compose up --build
-4. A aplicação estará disponível em:    </br>  
-   API: http://localhost:8080    
+4. A aplicação estará disponível em:    </br>     
    Swagger: http://localhost:8080/swagger
 
 ## 📊 Modelagem de dados
@@ -61,7 +60,49 @@ Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o proces
 - GET - /locacao/{id} - Consultar locacao por id
 - PUT - /locacao/{id}/devolucao Informar data de devolução e calcular valor total </br></br>
 
+<table>
+   <th>Funcionalidades</th>
+   <th>Status</th>
+   <tr>
+      <td>Cadastro de moto levando em consideração dados obrigatório</td>
+      <td>✔️ Realizado</td>
+   </tr>
+      <tr>
+      <td>Evento de cadastro de moto com Mensageria</td>
+      <td>Implementação futura</td>
+   </tr>
+      <tr>
+      <td>Consulta das motos Cadastradas com possibilidade de filtrar por placa</td>
+      <td>✔️ Realizado</td>
+   </tr>
+      <tr>
+      <td>Modificar placa da moto</td>
+      <td>✔️ Realizado</td>
+   </tr>
+   <tr>
+      <td>Deletar moto cadastrada indevidamente</td>
+      <td>✔️ Realizado</td>
+   </tr>
+   <tr>
+      <td>Cadastrar entregador levando em consideração dados obrigatório</td>
+      <td>✔️ Realizado</td>
+   </tr>
+   <tr>
+      <td>Armazenamento da imagem do CNH utilizando serviço storage disco local</td>
+      <td>✔️ Realizado</td>
+   </tr>
+   <tr>
+      <td>Devolução do valor total com multa/adicionais</td>
+      <td>✔️ Realizado</td>
+   </tr>
+      <tr>
+      <td>Gerenciar usuario via token JWT</td>
+      <td>Implementação futura</td>
+   </tr>
+   
 
+   
+</table>
 <table>
       <th>Dev</th>
       <th>Icon</th>
@@ -72,6 +113,7 @@ Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o proces
        <td><a href="https://api.whatsapp.com/send/?phone=11981733002&text&type=phone_number&app_absent=0"><img width="50" height="50" alt="wpp" src="https://github.com/user-attachments/assets/7838408f-6089-4437-a0bb-19336456e2e7" /></a></td>
    </tr>
 </table>
+
 
 
 
