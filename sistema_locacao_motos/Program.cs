@@ -12,7 +12,7 @@ builder.Services.AddDbContext<SlmDbContext>();
 
 var app = builder.Build();
 
-// Configure the HTTP request .
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -26,3 +26,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

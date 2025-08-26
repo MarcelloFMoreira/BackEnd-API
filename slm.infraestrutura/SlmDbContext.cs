@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Slm.Domain.Entidades;
 
@@ -11,7 +10,6 @@ namespace slm.infraestrutura
     {
         private readonly IConfiguration _configuration;
 
-
         // Cada DbSet mapeia uma entidade para uma tabela.
         public DbSet<Moto> Moto { get; set; }
         public DbSet<Entregador> Entregador { get; set; }
@@ -22,14 +20,16 @@ namespace slm.infraestrutura
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
-          
+
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
                 Database.Migrate();
             }
         }
+            
 
-        //  método é usado para configurar a conexão com o banco de dados.
+
+        //  método usado para configurar a conexão com o banco de dados.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Checa se a conexão já foi configurada.
@@ -40,9 +40,9 @@ namespace slm.infraestrutura
                 // Obtém a string de conexão completa com base no tipo de banco.
                 var connectionString = _configuration.GetConnectionString(typeDatabase);
 
+                // Usa o provedor Npgsql para configurar a conexão.
                 if (typeDatabase == "Postgresql")
                 {
-                    // Usa o provedor Npgsql para configurar a conexão.
                     optionsBuilder.UseNpgsql(connectionString,
                         b => b.MigrationsAssembly("slm.infraestrutura"));
                 }
