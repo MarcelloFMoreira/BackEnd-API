@@ -41,9 +41,10 @@ Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o proces
    Swagger: http://localhost:8080/swagger
 
 ## 📊 Modelagem de dados
-<img width="800"  alt="Modelagem de dado" src="https://github.com/user-attachments/assets/43f99e83-0366-4bea-bfdb-0f3fa5b2735d" />
+<img width="800" alt="cardinalidade" src="https://github.com/user-attachments/assets/36d480f0-515a-4e55-8e9e-7bc4e9656b32" />
 
 ## 🎯 Endpoints 
+
  Gestão de Motos
 - POST - /motos - Cadastrar nova moto
 - GET - /motos - Consultar motos
@@ -71,6 +72,7 @@ Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o proces
        <td><a href="https://api.whatsapp.com/send/?phone=11981733002&text&type=phone_number&app_absent=0"><img width="50" height="50" alt="wpp" src="https://github.com/user-attachments/assets/7838408f-6089-4437-a0bb-19336456e2e7" /></a></td>
    </tr>
 </table>
+
 
 
 
