@@ -22,7 +22,7 @@ Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o proces
    └── README.md           # Documentação do projeto         
 
 ## ⚙️ Pré-requisitos
-- .NET 9.0 SDK ou superior
+- .NET 8.0 SDK ou superior
 - Docker Desktop com Docker Compose
 - Git para clonar o repositório
 
@@ -113,6 +113,7 @@ Esta é uma API RESTful desenvolvida em .NET , projetada para gerenciar o proces
        <td><a href="https://api.whatsapp.com/send/?phone=11981733002&text&type=phone_number&app_absent=0"><img width="50" height="50" alt="wpp" src="https://github.com/user-attachments/assets/7838408f-6089-4437-a0bb-19336456e2e7" /></a></td>
    </tr>
 </table>
+
 
 
 
